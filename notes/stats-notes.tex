@@ -1,0 +1,68 @@
+\documentclass{article}
+%% Open ~/.vim/UltiSnips/tex.snippets with "gf" to change snippets (remember to ",u")
+\usepackage[a4paper, total={6in, 8in}]{geometry} % Page margins
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, mathtools, amsfonts, amsthm}
+\usepackage{wasysym} % Smiley QED
+\usepackage{eulervm} % Font
+\usepackage{fancyhdr} % Custom headers and footers
+\fancyhead[C]{\thepage} % Page numbering for center header
+\usepackage{mdframed}
+\usepackage{xcolor}
+
+% list environments               
+\usepackage{enumerate}            
+\usepackage[shortlabels]{enumitem}      
+
+% figure support
+\usepackage{import}
+\usepackage{xifthen}
+\pdfminorversion=7
+\usepackage{pdfpages}
+\usepackage{transparent}
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{\columnwidth}
+    \import{./figures/}{#1.pdf_tex}
+}
+
+\pdfsuppresswarningpagegroup=1
+
+%Commands and titles
+\renewcommand\qedsymbol{\smiley}
+\theoremstyle{definition}
+\newtheorem*{remark}{Remark}
+\theoremstyle{definition}
+\newmdtheoremenv[backgroundcolor=black!4,
+innertopmargin=-2pt]{theorem}{Theorem}                                           
+\theoremstyle{definition}
+\newmdtheoremenv[backgroundcolor=black!4,
+innertopmargin=-2pt]{corollary}{Corollary}[theorem]
+\newmdtheoremenv[backgroundcolor=black!4,
+innertopmargin=-2pt]{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newmdtheoremenv[backgroundcolor=black!4,
+innertopmargin=-2pt]{definition}{Definition}
+\newmdtheoremenv[backgroundcolor=black!4,
+innertopmargin=-2pt]{exercise}{Exercise}
+\title{Anteckningar (och repetition av) sannolikhet och statistik}
+\author{David Sermoneta}
+
+
+\begin{document}
+\maketitle
+
+\subsection*{Likelihood function}
+\begin{definition}[Likelihood Function]
+The \textit{likelihood function} is defined by \[
+\mathcal{L}_{n} (\theta) = \prod_{i=1}^{n} f(X_{i} ; \theta) .
+\] 
+Similarly, the log-likelihood function is defined by $\ell_{n} (\theta) = \log
+\mathcal{L}_{n}(\theta)$. 
+\end{definition}
+
+Sometimes (why?), it is of interest to maximize this function, leading to the following definition: 
+\begin{definition}
+ The \textit{maximum likelihood estimator} (MLE), denoted by $\hat{\theta}_{n},$ is the value of $\theta$ that maximizes $\mathcal{L}_{n}(\theta)$.
+\end{definition}
+
+\end{document}

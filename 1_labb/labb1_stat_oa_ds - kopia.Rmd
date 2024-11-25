@@ -1,0 +1,606 @@
+---
+title: "Laboration 1"
+author: "Förnamn Efternamn"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    fig_caption: yes
+---
+```{r, echo = FALSE}
+library(tidyverse)
+library(dplyr)
+```
+
+# Utanför redovisningen / Introduktion till deskriptiv statistik
+
+I staden Grötköping mättes kroppslängden på 11 av stadens invånare och resultaten (i cm) blev
+
+```{r}
+x <- c(174.6, 173.2, 189.6, 167.7, 179.2, 179.6, 170.5, 168.5, 185.3, 164.1, 178.4)
+```
+
+Vi undersök vårt stickprov med några enkla beskrivande mått
+
+```{r}
+print(mean(x)) # Medelvärde
+print(var(x)) # (Stickprovs)varians
+print(sd(x)) # (Stickprovs)standardavvikelse
+print(summary(x)) # Minimum, maximum, median, kvartiler
+```
+
+Ett träd-blad-diagram:
+```{r}
+stem(x)
+```
+
+Ett histogram för datat:
+```{r}
+hist(x, breaks = seq(from = 162, to = 192, by = 5))
+hist(x, breaks = seq(from = 162, to = 190, by = 4))
+```
+
+En boxplot för datat:
+```{r}
+boxplot(x)
+```
+
+Normalfördelningsplot:
+```{r}
+qqnorm(x)
+qqline(x)
+```
+
+## Två teoriuppgifter
+1. Om en exponentialfördelad slumpvariabel har väntevärde a, har den också standardavvikelse a. 
+2. Den stokatiska variabeln X är likformigt fördelad med väntevärde a. Vi vet att om X är Re(p,q)-fördelad, så är väntevärdet E(X)=(p+q)/2. Vi vet också att standardavvikelsen är D(X)=(q-p)/12^(1/2). Vi söker nu p och q (dvs fördelningens övre och undre gränser), uttryckt i a, så att E(X)=D(X). Jag räknade detta i mitt block och kom fram till att den undre gränsen är a(1-sqrt(3)) och den övre är a(1+sqrt(3)). 
+
+# Kan data anses vara normalfördelad?
+Ofta ställs man som statistiker inför ovanstående fråga. Vi ska här jämföra olika (framför allt grafiska) metoder som kan användas för att besvara den. Vi ska också försöka besvara frågan om hur stort vårt n (antal observationer i vårt stickprov från en okänd sannolikhetsfördelning) behöver vara, för att vi ska kunna avgöra om stickprovet är normalfördelat eller ej. Detta ska vi ta reda på genom att simulera data från för oss kända fördelningar, både normalfördelade och icke-normalfördelade data. "Alla fördelningar som ni ska jämföra ska ha väntevärde och standardavvikelse lika med a, där a är de två sista siffrorna i erat personnummer (om ni
+jobbar i par, välj den enas personnummer att jobba med)."
+
+## Frågor till uppgiften
+1. Vilken är det *minsta stickprovsstorleken* som behövs för att den *fördelning* ni simulerar från skall avslöja sig som normal eller icke-normal?
+2. Vilken grafisk metod anser ni är *mest effektiv* för att avgöra om ett stickprov är normalfördelat eller inte? Motivera med de olika grafiska metoderna (boxplot, histogram, normalfördelningsplott).
+
+
+## "Uppgift 2.1: Normalfördelade data"
+
+Vi simulerar ett stickprov om 10 observationer från normalfördelad data:
+```{r}
+set.seed(19960120)
+x1 <- rnorm(10, 24, 24) # antal simulerade värden, väntevärde, standardavvikelse
+```
+
+Vi jämför slumptalen som vi precis simulerade, med den sanna normalfördelningen:
+```{r}
+hist(x1, prob = TRUE)
+x <- seq(from = -48, to = 72, length.out = 100)
+lines(x, dnorm(x, 24, 24))
+```
+
+Vi betraktar stickprovet med hjälp av en boxplot:
+```{r}
+boxplot(x1)
+```
+
+Och en normalfördelningsplot:
+```{r}
+qqnorm(x1)
+qqline(x1)
+```
+
+Vi simulerar ytterligare sju stickprov om 10 observtioner, från normalfördelade data:
+```{r}
+set.seed(19960120)
+x1 <- rnorm(50, 24, 24) # Detta är samma som ovan pga set.seed
+x2 <- rnorm(50, 24, 24) # Detta blir nya slumptal
+x3 <- rnorm(50, 24, 24) # Osv
+x4 <- rnorm(50, 24, 24)
+x5 <- rnorm(50, 24, 24)
+x6 <- rnorm(50, 24, 24)
+x7 <- rnorm(50, 24, 24)
+x8 <- rnorm(50, 24, 24)
+```
+
+Vi betraktar ovanstående åtta stickprov i en gemensam boxplot, för att få en överblick över dem:
+```{r}
+boxplot(x1, x2, x3, x4, x5, x6, x7, x8)
+```
+
+Nu vill vi titta på stickproven i form av histogram:
+
+```{r}
+old_par <- par(mfrow = c(2, 4)) # 2 rader, 4 kolumner
+hist(x1, prob = TRUE)
+x <- seq(from = -48, to = 72, length.out = 100)
+lines(x, dnorm(x, 24, 24))
+hist(x2, prob = TRUE)
+x <- seq(from = -48, to = 72, length.out = 100)
+lines(x, dnorm(x, 24, 24))
+hist(x3, prob = TRUE)
+x <- seq(from = -48, to = 72, length.out = 100)
+lines(x, dnorm(x, 24, 24))
+hist(x4, prob = TRUE)
+x <- seq(from = -48, to = 72, length.out = 100)
+lines(x, dnorm(x, 24, 24))
+hist(x5, prob = TRUE)
+x <- seq(from = -48, to = 72, length.out = 100)
+lines(x, dnorm(x, 24, 24))
+hist(x6, prob = TRUE)
+x <- seq(from = -48, to = 72, length.out = 100)
+lines(x, dnorm(x, 24, 24))
+hist(x7, prob = TRUE)
+x <- seq(from = -48, to = 72, length.out = 100)
+lines(x, dnorm(x, 24, 24))
+hist(x8, prob = TRUE)
+x <- seq(from = -48, to = 72, length.out = 100)
+lines(x, dnorm(x, 24, 24))
+par(old_par) # "Säg åt R att sluta förvänta sig fler plottar till samma fönster"
+```
+
+Ohc nu i form av normalfördelningsplottar:
+```{r}
+old_par <- par(mfrow = c(2, 4)) # 2 rader, 4 kolumner
+qqnorm(x1)
+qqline(x1)
+qqnorm(x2)
+qqline(x2)
+qqnorm(x3)
+qqline(x3)
+qqnorm(x4)
+qqline(x4)
+qqnorm(x5)
+qqline(x5)
+qqnorm(x6)
+qqline(x6)
+qqnorm(x7)
+qqline(x7)
+qqnorm(x8)
+qqline(x8)
+```
+
+
+## "Uppgift 2.2: Likformigt fördelade data"
+
+Vi simulerar fem stickprov om 10 observationer, från likformig fördelning:
+```{r}
+set.seed(19960120)
+u1 <- runif(50, 24*(1-sqrt(3)), 24*(1+sqrt(3))) # antal simulerade värden, min, max
+u2 <- runif(50, 24*(1-sqrt(3)), 24*(1+sqrt(3)))
+u3 <- runif(50, 24*(1-sqrt(3)), 24*(1+sqrt(3)))
+u4 <- runif(50, 24*(1-sqrt(3)), 24*(1+sqrt(3)))
+u5 <- runif(50, 24*(1-sqrt(3)), 24*(1+sqrt(3)))
+```
+
+
+Vi jämför stickproven i en boxplot:
+```{r}
+boxplot(u1, u2, u3, u4, u5)
+```
+
+Och i histogram:
+```{r}
+old_par <- par(mfrow = c(2, 3)) # 2 rader, 4 kolumner
+hist(u1, prob = TRUE)
+x <- seq(from = -48, to = 72, length.out = 100)
+lines(x, dnorm(x, 24, 24))
+hist(u2, prob = TRUE)
+x <- seq(from = -48, to = 72, length.out = 100)
+lines(x, dnorm(x, 24, 24))
+hist(u3, prob = TRUE)
+x <- seq(from = -48, to = 72, length.out = 100)
+lines(x, dnorm(x, 24, 24))
+hist(u4, prob = TRUE)
+x <- seq(from = -48, to = 72, length.out = 100)
+lines(x, dnorm(x, 24, 24))
+hist(u5, prob = TRUE)
+x <- seq(from = -48, to = 72, length.out = 100)
+lines(x, dnorm(x, 24, 24))
+#par(old_par) # "Säg åt R att sluta förvänta sig fler plottar till samma fönster"
+```
+
+Och i normalfördelningsplot:
+```{r}
+old_par <- par(mfrow = c(2, 3)) # 2 rader, 4 kolumner
+qqnorm(u1)
+qqline(u1)
+qqnorm(u2)
+qqline(u2)
+qqnorm(u3)
+qqline(u3)
+qqnorm(u4)
+qqline(u4)
+qqnorm(u5)
+qqline(u5)
+```
+
+
+Låt oss jämföra stickproven från den normalfördelade datan med stickproven från den likformigt fördelade datan.
+```{r}
+old_par <- par(mfrow = c(2, 4))
+hist(x1, breaks = seq(from = -40, to = 80, by = 10))
+hist(x2, breaks = seq(from = -40, to = 80, by = 10))
+hist(x3, breaks = seq(from = -40, to = 80, by = 10))
+hist(x4, breaks = seq(from = -40, to = 80, by = 10))
+hist(u1, breaks = seq(from = -20, to = 80, by = 10))
+hist(u2, breaks = seq(from = -20, to = 80, by = 10))
+hist(u3, breaks = seq(from = -20, to = 80, by = 10))
+hist(u4, breaks = seq(from = -20, to = 80, by = 10))
+
+```
+ 
+Upprepa er analys med stickprovsstorlekarna n = 20, n = 100 och ytterligare något värde på n som ni väljer själva. Besvara sedan frågorna som tidigare ställts:
+
+## Frågor till uppgiften
+1. Vilken är det *minsta stickprovsstorleken* som behövs för att den *fördelning* ni simulerar från skall avslöja sig som normal eller icke-normal?
+2. Vilken grafisk metod anser ni är *mest effektiv* för att avgöra om ett stickprov är normalfördelat eller inte? Motivera med de olika grafiska metoderna (boxplot, histogram, normalfördelningsplott).
+
+Vad gäller val av metod vill jag förespråka normalfördelningsplotten. Hittills tycker jag att normalfördelningsplotten är den utifrån vilken det tydligast går att med ögat avgöra om data är normalfördelad eller ej. Boxploten tycker jag är den svåraste. Histogrammet är okej men för t.ex. n=100 ser man mycket tydligare skillnad mellan stickproven från den likformiga fördelnignen och den normalfördelade i normalfördelningsplotten än i histogrammen. 
+
+Vad gäller storlek på stickprovet tycker jag att det är svårare. Framför allt beror storleken på stickprovet på val av metod! T.ex. tycker jag att det inte krävs lika många observationer för att kunna avgöra normal/icke-normal i en normalfördelningsplot, som i ett histogram. (Vi får simulera och testa oss fram för att komma fram till ett gränsvärde för n!)
+
+## "Uppgift 2.3: Exponentialfördelade data"
+
+Dags att undersöka samma sak för stickprov från exponentialfördelade data. Vi skapar våra stickprov:
+
+```{r}
+set.seed(19960120)
+e1 <- rexp(100, 1/24) # antal simulerade observationer, 1/väntevärdet
+e2 <- rexp(100, 1/24)
+e3 <- rexp(100, 1/24)
+e4 <- rexp(100, 1/24)
+e5 <- rexp(100, 1/24)
+e6 <- rexp(100, 1/24)
+```
+
+Vi visualiserar i en boxplot:
+```{r}
+boxplot(e1, e2, e3, e4, e5, e6)
+```
+
+Min kritik ovan till trots, tycker jag att man i det här fallet tydligt kan konstatera att data inte ser särskilt normalfördelad ut. Vi ser en skevhet i stickproven, med en "lägre svans" åt ena hållet. Boxplotten klarar faktiskt nästan av att diskvalificera exp-stickproven som normalfördelade redan vid n=10. Vid n=20 är jag övertygad.
+
+Låt oss titta på stickproven i histogram:
+
+```{r}
+old_par <- par(mfrow = c(2, 3))
+hist(e1, breaks = seq(from = 0, to = 100, by = 20))
+hist(e2, breaks = seq(from = 0, to = 10, by = 20))
+hist(e3, breaks = seq(from = 0, to = 100, by = 20))
+hist(e4, breaks = seq(from = 0, to = 100, by = 20))
+hist(e5, breaks = seq(from = 0, to = 100, by = 20))
+hist(e6, breaks = seq(from = 0, to = 100, by = 20))
+```
+
+Aha! För n = 10 på de exp-fördelade stickproven var histogramfinfördelade histogram ganska värdelöst. Alla stickprov såg i princip likformigt fördelade ut. Däremot, med större klasser, såg det bättre ut.  
+För n=20 på de exp-fördelade stickproven är jag övertygad om att de EJ är normalfördelade.
+
+Den tredje och sista typen av visualisering: Normalfördelningsplotten! Let's go.
+
+```{r}
+old_par <- par(mfrow = c(2, 3))
+qqnorm(e1)
+qqline(e1)
+qqnorm(e2)
+qqline(e2)
+qqnorm(e3)
+qqline(e3)
+qqnorm(e4)
+qqline(e4)
+qqnorm(e5)
+qqline(e5)
+qqnorm(e6)
+qqline(e6)
+```
+
+Aha! Normalfördelningsplotten fungerar dåligt för n=10 på stickproven. (n=10 verkar helt enkelt överlag vara ett för litet stickprov för att kunna avgöra om data är normalfördelat eller ej.)
+
+Jag tycker faktiskt att även n=20 ger tvetydiga resultat i normalfördelningsplotten. När vi tittar på ett större antal stickprov (i det här fallet 6 stickprov) så blir jag (kanske) övertygad om att det inte är normalfördelade data. Men inte helt. Intressant!!!
+
+
+# "Uppgift 3: Explorativ dataanalys"
+
+```{r}
+alkohol_OECD <- read.csv("olvinsprit.csv", header = TRUE)
+alkohol_OECD
+land <- alkohol_OECD$Land
+beer <- alkohol_OECD$beer
+vin <- alkohol_OECD$vin
+sprit <- alkohol_OECD$sprit
+land
+beer
+vin
+sprit
+
+```
+
+
+```{r}
+plot(beer, vin)
+text(beer, vin, land)
+```
+
+
+```{r}
+gg_alc <- ggplot(alc, aes(x=beer, y=vin, label=Land)) + 
+  geom_point(col = "#00AFBB", size = sprit) + 
+  geom_text(hjust=-0.1, vjust=-0.3) + 
+  labs(title="Alkoholkonsumtion i ett urval av OECD-länder",
+       y="Konsumtion av vin",
+       x="Konstumtion av öl",
+       caption="Storlek på datapunkter indikerar mängden starksprit.")
+plot(gg_alc)
+```
+
+```{r}
+boxplot(alc$vin)
+```
+
+
+-----REDOVISNING-----
+
+# Sammanfattning
+I detta inledande stycke ska du förklara vad labben går ut på, utan att gå in
+på detaljer.
+
+Den här laborationen går ut på att utforska olika metoder för att
+
+# Uppgift 1: Kommer data från en normalfördelning? 
+I den här uppgiften vill vi undersöka hur vi kan avgöra om ett stickprov kommer från en normalfördelning eller inte. Vi har två huvudsakliga syften. Det första (1) är att ta reda på hur mycket data som behövs för att kunna besvara den frågan, med andra ord: hur stort behöver ett stickprov vara? (Hur stort värde på *n* behövs?) Det andra (2) är att komma fram till vilken metod vi anser vara mest effektiv för ändamålet, utifrån att bedömningen görs helt grafiskt. 
+
+För att besvara dessa två frågor har vi simulerat olika stickprov från för oss redan kända fördelningar: normalfördelade, likformigt fördelade respektive exponentialfördelade data. Vi har tittat på tre olika typer av grafiska metoder: boxplot, histogram och normalfördelningsplot. Vi kommer här nedan att redovisa våra resultat utifrån fördelning, följt av en avslutande diskussion.
+
+
+
+## Normalfördelade data
+För att undersöka vår redan normalfördelade data definierar vi följande vektor
+```{r}
+set.seed(20010310)
+normalstickprov1 <- rnorm(40, 24, 24) # antal simulerade värden, väntevärde, standardavvikelse
+normalstickprov2 <- rnorm(40, 24, 24) 
+normalstickprov3 <- rnorm(40, 24, 24) 
+normalstickprov4 <- rnorm(40, 24, 24) 
+normalstickprov5 <- rnorm(40, 24, 24) 
+normalstickprov6 <- rnorm(40, 24, 24) 
+normalstickprov7 <- rnorm(40, 24, 24)
+normalstickprov8 <- rnorm(40, 24, 24) 
+```
+
+För att visualisera stickprovet plottar vi datan med hjälp av R-funktionen `hist` och jämför den med 
+motsvarande täthetsfunktionen.
+
+```{r, fig.cap = "Histogram"}
+old_par <- par(mfrow = c(2,4), oma = c(0,0,3,0))
+
+
+hist(normalstickprov1,
+     breaks = seq(from = -48, to = 96, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 1", 
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) # Väljer övre och undre -gränser för att täcka hela stickprov2et.
+lines(x, dnorm(x, 24, 24)) 
+
+hist(normalstickprov2,
+     breaks = seq(from = -48, to = 96, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 2", 
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) # Väljer övre och undre -gränser för att täcka hela stickprov3et.
+lines(x, dnorm(x, 24, 24)) 
+
+hist(normalstickprov3,
+     breaks = seq(from = -72, to = 120, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 3", 
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) # Väljer övre och undre -gränser för att täcka hela stickprov4et.
+lines(x, dnorm(x, 24, 24)) 
+
+hist(normalstickprov4,
+     breaks = seq(from = -48, to = 96, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 4", 
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) # Väljer övre och undre -gränser för att täcka hela stickprov5et.
+lines(x, dnorm(x, 24, 24)) 
+
+hist(normalstickprov5,
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 5", 
+     breaks = seq(from = -48, to = 96, by = 10),
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) # Väljer övre och undre -gränser för att täcka hela stickprov6et.
+lines(x, dnorm(x, 24, 24)) 
+
+hist(normalstickprov6,
+     breaks = seq(from = -72, to = 120, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 6", 
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) # Väljer övre och undre -gränser för att täcka hela stickprovet.
+lines(x, dnorm(x, 24, 24)) 
+
+hist(normalstickprov7,
+     breaks = seq(from = -48, to = 96, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 7",
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) # Väljer övre och undre -gränser för att täcka hela stickprovet.
+lines(x, dnorm(x, 24, 24)) 
+
+hist(normalstickprov8,
+     breaks = seq(from = -48, to = 96, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 8",
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) # Väljer övre och undre -gränser för att täcka hela stickprovet.
+lines(x, dnorm(x, 24, 24)) 
+
+mtext("Histogram över normalfördelade stickprov", outer = TRUE, cex = 1.2, font = 2)
+```
+NÅN KOMMENTAR OM HISTOGRAMMETODD (OCh varför den suger)
+
+För att visualisera datan med hjälp av boxplottar använder vi oss av den inbyggda R-funktionen `boxplot()`
+och matar in samma data: 
+
+```{r, fig.cap = "box plot av Normalfördelad data"}
+boxplot(normalstickprov1, normalstickprov2, normalstickprov3, normalstickprov4, normalstickprov5, normalstickprov6, normalstickprov7, normalstickprov8, 
+        horizontal = TRUE,
+        main = "Boxplottar över normalfördelade stickprov",
+        xlab = "Värde",
+        ylab = "Stickprov")
+
+```
+
+Till slut vänder vi oss till normalfördelningsplott, och här igen, använder vi oss av `R`s inbyggda funktion 
+`qqnorm()`
+```{r, fig.cap= "Normalfördelningsplott av normalfördelad data"}
+old_par <- par(mfrow = c(2,4), oma = c(0,0,3,0))
+qqnorm(normalstickprov1,
+      xlab = "Teoretiska kvantiler",
+      ylab = "Stickprovskvantiler",
+      main = "Stickprov 1")
+qqline(normalstickprov)
+
+qqnorm(normalstickprov2,
+      xlab = "Teoretiska kvantiler",
+      ylab = "Stickprovskvantiler",
+      main = "Stickprov 2")
+qqline(normalstickprov2)
+
+qqnorm(normalstickprov3,
+      xlab = "Teoretiska kvantiler",
+      ylab = "Stickprovskvantiler",
+      main = "Stickprov 3")
+qqline(normalstickprov3)
+
+qqnorm(normalstickprov4,
+      xlab = "Teoretiska kvantiler",
+      ylab = "Stickprovskvantiler",
+      main = "Stickprov 4")
+qqline(normalstickprov4)
+
+qqnorm(normalstickprov5,
+      xlab = "Teoretiska kvantiler",
+      ylab = "Stickprovskvantiler",
+      main = "Stickprov 5")
+qqline(normalstickprov5)
+
+qqnorm(normalstickprov6,
+      xlab = "Teoretiska kvantiler",
+      ylab = "Stickprovskvantiler",
+      main = "Stickprov 6")
+qqline(normalstickprov6)
+
+qqnorm(normalstickprov7,
+      xlab = "Teoretiska kvantiler",
+      ylab = "Stickprovskvantiler",
+      main = "Stickprov 7")
+qqline(normalstickprov7)
+
+qqnorm(normalstickprov8,
+      xlab = "Teoretiska kvantiler",
+      ylab = "Stickprovskvantiler",
+      main = "Stickprov 8")
+qqline(normalstickprov8)
+
+mtext("Normalfördelningsplottar över normalfördelade stickprov", outer = TRUE, cex = 1.2, font = 2)
+```
+
+
+
+## Likformigt fördelade data
+```{r}
+set.seed(20010310)
+likformstickprov1 <- runif(40, 24*(1-sqrt(3)), 24*(1+sqrt(3))) # antal genererade värden, min, max
+likformstickprov2 <- runif(40, 24*(1-sqrt(3)), 24*(1+sqrt(3))) 
+likformstickprov3 <- runif(40, 24*(1-sqrt(3)), 24*(1+sqrt(3))) 
+likformstickprov4 <- runif(40, 24*(1-sqrt(3)), 24*(1+sqrt(3))) 
+likformstickprov5 <- runif(40, 24*(1-sqrt(3)), 24*(1+sqrt(3))) 
+```
+
+```{r, fig.cap = "Histogram av likformigt fördelad data"}
+old_par <- par(mfrow = c(2,3), oma = c(0,0,3,0))
+
+hist(likformstickprov1,
+     breaks = seq(from = -48, to = 96, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 1",
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) # Väljer övre och undre -gränser för att täcka hela stickprovet.
+lines(x, dnorm(x, 24, 24)) # Grafen för Täthetsfunktionen av en normalfördelad slumpvariabel med väntevärde och standardavvikelse  lika med 24
+
+hist(likformstickprov2,
+     breaks = seq(from = -48, to = 96, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 1",
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) 
+lines(x, dnorm(x, 24, 24))
+
+hist(likformstickprov3,
+     breaks = seq(from = -48, to = 96, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 2",
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) 
+lines(x, dnorm(x, 24, 24))
+
+hist(likformstickprov4,
+     breaks = seq(from = -48, to = 96, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 3",
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) 
+lines(x, dnorm(x, 24, 24))
+
+hist(likformstickprov5,
+     breaks = seq(from = -48, to = 96, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 5",
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) 
+lines(x, dnorm(x, 24, 24))
+mtext("Histogram över likformigt fördelade stickprov", outer = TRUE, cex = 1.2, font = 2)
+```
+
+```{r, fig.cap = "Boxplot för likformigt fördelad data}
+boxplot(likformstickprov)
+```
+```{r, fig.cap = "Normalfördelningsplot av likformigt fördelad data"}
+qqnorm(likformstickprov)
+qqline(likformstickprov)
+```
+
+
+
+Vi gör samma sak 
+
+
+## Exponentialfördelade data
+```{r}
+set.seed(20010310)
+e1 <- rexp(100, 1/24) # antal simulerade observationer, 1/väntevärdet
+```
+
+## Disukssion och slutsats
+
+
+# Uppgift 2
+Mer text. Använd underrubriker för delfrågor om du tycker det är motiverat.
+
+Et cetera om det är fler än 2 uppgifter.

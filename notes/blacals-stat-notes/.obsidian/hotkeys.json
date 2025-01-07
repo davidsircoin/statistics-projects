@@ -1,0 +1,68 @@
+{
+  "file-explorer:new-file-in-new-pane": [],
+  "app:open-vault": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "N"
+    }
+  ],
+  "app:go-back": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "ArrowLeft"
+    }
+  ],
+  "app:go-forward": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "ArrowRight"
+    }
+  ],
+  "obsidian-regex-replace:obsidian-regex-replace": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "R"
+    }
+  ],
+  "obsidian-excalidraw-plugin:insert-LaTeX-symbol": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "L"
+    }
+  ],
+  "obsidian-excalidraw-plugin:insert-link": [],
+  "obsidian-zotero-desktop-connector:zdc-APA 7": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "B"
+    }
+  ],
+  "editor:open-link-in-new-leaf": [],
+  "obsidian-editor-shortcuts:selectAllOccurrences": [],
+  "editor:toggle-checklist-status": [],
+  "editor:delete-paragraph": [],
+  "obsidian-editor-shortcuts:expandSelectionToQuotesOrBrackets": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "M"
+    }
+  ]
+}

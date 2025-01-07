@@ -1,0 +1,283 @@
+---
+title: "Laboration 1"
+author: "Förnamn Efternamn"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document:
+    fig_caption: yes
+---
+```{r, echo = FALSE}
+library(dplyr)
+```
+
+-----REDOVISNING-----
+
+# Sammanfattning
+I detta inledande stycke ska du förklara vad labben går ut på, utan att gå in
+på detaljer.
+
+Den här laborationen går ut på att utforska olika metoder för att
+
+# Uppgift 1: Kommer data från en normalfördelning? 
+I den här uppgiften vill vi undersöka hur vi kan avgöra om ett stickprov kommer från en normalfördelning eller inte. Vi har två huvudsakliga syften. Det första (1) är att ta reda på hur mycket data som behövs för att kunna besvara den frågan, med andra ord: hur stort behöver ett stickprov vara? (Hur stort värde på *n* behövs?) Det andra (2) är att komma fram till vilken metod vi anser vara mest effektiv för ändamålet, utifrån att bedömningen görs helt grafiskt. 
+
+För att besvara dessa två frågor har vi simulerat olika stickprov från för oss redan kända fördelningar: normalfördelade, likformigt fördelade respektive exponentialfördelade data. Vi har tittat på tre olika typer av grafiska metoder: boxplot, histogram och normalfördelningsplot. Vi kommer här nedan att redovisa våra resultat utifrån fördelning, följt av en avslutande diskussion.
+
+
+
+## Normalfördelade data
+För att undersöka vår redan normalfördelade data definierar vi följande vektor
+```{r}
+set.seed(20010310)
+normalstickprov1 <- rnorm(40, 24, 24) # antal simulerade värden, väntevärde, standardavvikelse
+normalstickprov2 <- rnorm(40, 24, 24) 
+normalstickprov3 <- rnorm(40, 24, 24) 
+normalstickprov4 <- rnorm(40, 24, 24) 
+normalstickprov5 <- rnorm(40, 24, 24) 
+normalstickprov6 <- rnorm(40, 24, 24) 
+normalstickprov7 <- rnorm(40, 24, 24)
+normalstickprov8 <- rnorm(40, 24, 24) 
+```
+
+För att visualisera stickprovet plottar vi datan med hjälp av R-funktionen `hist` och jämför den med 
+motsvarande täthetsfunktionen.
+
+```{r, fig.cap = "Histogram"}
+old_par <- par(mfrow = c(2,4), oma = c(0,0,3,0))
+
+
+hist(normalstickprov1,
+     breaks = seq(from = -48, to = 96, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 1", 
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) # Väljer övre och undre -gränser för att täcka hela stickprov2et.
+lines(x, dnorm(x, 24, 24)) 
+
+hist(normalstickprov2,
+     breaks = seq(from = -48, to = 96, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 2", 
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) # Väljer övre och undre -gränser för att täcka hela stickprov3et.
+lines(x, dnorm(x, 24, 24)) 
+
+hist(normalstickprov3,
+     breaks = seq(from = -72, to = 120, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 3", 
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) # Väljer övre och undre -gränser för att täcka hela stickprov4et.
+lines(x, dnorm(x, 24, 24)) 
+
+hist(normalstickprov4,
+     breaks = seq(from = -48, to = 96, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 4", 
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) # Väljer övre och undre -gränser för att täcka hela stickprov5et.
+lines(x, dnorm(x, 24, 24)) 
+
+hist(normalstickprov5,
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 5", 
+     breaks = seq(from = -48, to = 96, by = 10),
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) # Väljer övre och undre -gränser för att täcka hela stickprov6et.
+lines(x, dnorm(x, 24, 24)) 
+
+hist(normalstickprov6,
+     breaks = seq(from = -72, to = 120, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 6", 
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) # Väljer övre och undre -gränser för att täcka hela stickprovet.
+lines(x, dnorm(x, 24, 24)) 
+
+hist(normalstickprov7,
+     breaks = seq(from = -48, to = 96, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 7",
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) # Väljer övre och undre -gränser för att täcka hela stickprovet.
+lines(x, dnorm(x, 24, 24)) 
+
+hist(normalstickprov8,
+     breaks = seq(from = -48, to = 96, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 8",
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) # Väljer övre och undre -gränser för att täcka hela stickprovet.
+lines(x, dnorm(x, 24, 24)) 
+
+mtext("Histogram över normalfördelade stickprov", outer = TRUE, cex = 1.2, font = 2)
+```
+
+
+NÅN KOMMENTAR OM HISTOGRAMMETODD (OCh varför den suger)
+
+För att visualisera datan med hjälp av boxplottar använder vi oss av den inbyggda R-funktionen `boxplot()`
+och matar in samma data: 
+
+```{r, fig.cap = "box plot av Normalfördelad data"}
+boxplot(normalstickprov1, normalstickprov2, normalstickprov3, normalstickprov4, normalstickprov5, normalstickprov6, normalstickprov7, normalstickprov8, 
+        horizontal = TRUE,
+        main = "Boxplottar över normalfördelade stickprov",
+        xlab = "Värde",
+        ylab = "Stickprov")
+
+```
+
+Till slut vänder vi oss till normalfördelningsplott, och här igen, använder vi oss av `R`s inbyggda funktion 
+`qqnorm()`
+```{r, fig.cap= "Normalfördelningsplott av normalfördelad data"}
+old_par <- par(mfrow = c(2,4), oma = c(0,0,3,0))
+qqnorm(normalstickprov1,
+      xlab = "Teoretiska kvantiler",
+      ylab = "Stickprovskvantiler",
+      main = "Stickprov 1")
+qqline(normalstickprov1)
+
+qqnorm(normalstickprov2,
+      xlab = "Teoretiska kvantiler",
+      ylab = "Stickprovskvantiler",
+      main = "Stickprov 2")
+qqline(normalstickprov2)
+
+qqnorm(normalstickprov3,
+      xlab = "Teoretiska kvantiler",
+      ylab = "Stickprovskvantiler",
+      main = "Stickprov 3")
+qqline(normalstickprov3)
+
+qqnorm(normalstickprov4,
+      xlab = "Teoretiska kvantiler",
+      ylab = "Stickprovskvantiler",
+      main = "Stickprov 4")
+qqline(normalstickprov4)
+
+qqnorm(normalstickprov5,
+      xlab = "Teoretiska kvantiler",
+      ylab = "Stickprovskvantiler",
+      main = "Stickprov 5")
+qqline(normalstickprov5)
+
+qqnorm(normalstickprov6,
+      xlab = "Teoretiska kvantiler",
+      ylab = "Stickprovskvantiler",
+      main = "Stickprov 6")
+qqline(normalstickprov6)
+
+qqnorm(normalstickprov7,
+      xlab = "Teoretiska kvantiler",
+      ylab = "Stickprovskvantiler",
+      main = "Stickprov 7")
+qqline(normalstickprov7)
+
+qqnorm(normalstickprov8,
+      xlab = "Teoretiska kvantiler",
+      ylab = "Stickprovskvantiler",
+      main = "Stickprov 8")
+qqline(normalstickprov8)
+
+mtext("Normalfördelningsplottar över normalfördelade stickprov", outer = TRUE, cex = 1.2, font = 2)
+```
+
+
+
+## Likformigt fördelade data
+```{r}
+set.seed(20010310)
+likformstickprov1 <- runif(40, 24*(1-sqrt(3)), 24*(1+sqrt(3))) # antal genererade värden, min, max
+likformstickprov2 <- runif(40, 24*(1-sqrt(3)), 24*(1+sqrt(3))) 
+likformstickprov3 <- runif(40, 24*(1-sqrt(3)), 24*(1+sqrt(3))) 
+likformstickprov4 <- runif(40, 24*(1-sqrt(3)), 24*(1+sqrt(3))) 
+likformstickprov5 <- runif(40, 24*(1-sqrt(3)), 24*(1+sqrt(3))) 
+```
+
+```{r, fig.cap = "Histogram av likformigt fördelad data"}
+old_par <- par(mfrow = c(2,3), oma = c(0,0,3,0))
+
+hist(likformstickprov1,
+     breaks = seq(from = -48, to = 96, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 1",
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) # Väljer övre och undre -gränser för att täcka hela stickprovet.
+lines(x, dnorm(x, 24, 24)) # Grafen för Täthetsfunktionen av en normalfördelad slumpvariabel med väntevärde och standardavvikelse  lika med 24
+
+hist(likformstickprov2,
+     breaks = seq(from = -48, to = 96, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 1",
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) 
+lines(x, dnorm(x, 24, 24))
+
+hist(likformstickprov3,
+     breaks = seq(from = -48, to = 96, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 2",
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) 
+lines(x, dnorm(x, 24, 24))
+
+hist(likformstickprov4,
+     breaks = seq(from = -48, to = 96, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 3",
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) 
+lines(x, dnorm(x, 24, 24))
+
+hist(likformstickprov5,
+     breaks = seq(from = -48, to = 96, by = 10),
+     xlab = "Värde",
+     ylab = "Frekvens",
+     main = "Stickprov 5",
+     prob = TRUE) 
+x <- seq(from = -72, to = 96, length.out = 100) 
+lines(x, dnorm(x, 24, 24))
+mtext("Histogram över likformigt fördelade stickprov", outer = TRUE, cex = 1.2, font = 2)
+```
+
+```{r, fig.cap = "Boxplot för likformigt fördelad data"}
+boxplot(likformstickprov1)
+```
+
+```{r, fig.cap = "Normalfördelningsplot av likformigt fördelad data"}
+qqnorm(likformstickprov1)
+qqline(likformstickprov1)
+```
+
+
+
+Vi gör samma sak 
+
+
+## Exponentialfördelade data
+```{r}
+set.seed(20010310)
+e1 <- rexp(100, 1/24) # antal simulerade observationer, 1/väntevärdet
+```
+
+## Disukssion och slutsats
+
+
+# Uppgift 2
+Mer text. Använd underrubriker för delfrågor om du tycker det är motiverat.
+
+Et cetera om det är fler än 2 uppgifter.

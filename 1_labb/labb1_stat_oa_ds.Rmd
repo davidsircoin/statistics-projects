@@ -6,313 +6,191 @@ output:
   html_document:
     fig_caption: yes
 ---
-```{r, echo = FALSE}
-library(tidyverse)
-library(dplyr)
-```
-
-# Utanför redovisningen / Introduktion till deskriptiv statistik
-
-I staden Grötköping mättes kroppslängden på 11 av stadens invånare och resultaten (i cm) blev
-
-```{r}
-x <- c(174.6, 173.2, 189.6, 167.7, 179.2, 179.6, 170.5, 168.5, 185.3, 164.1, 178.4)
-```
-
-Vi undersök vårt stickprov med några enkla beskrivande mått
-
-```{r}
-print(mean(x)) # Medelvärde
-print(var(x)) # (Stickprovs)varians
-print(sd(x)) # (Stickprovs)standardavvikelse
-print(summary(x)) # Minimum, maximum, median, kvartiler
-```
-
-Ett träd-blad-diagram:
-```{r}
-stem(x)
-```
-
-Ett histogram för datat:
-```{r}
-hist(x, breaks = seq(from = 162, to = 192, by = 5))
-hist(x, breaks = seq(from = 162, to = 190, by = 4))
-```
-
-En boxplot för datat:
-```{r}
-boxplot(x)
-```
-
-Normalfördelningsplot:
-```{r}
-qqnorm(x)
-qqline(x)
-```
-
-## Två teoriuppgifter
-1. Om en exponentialfördelad slumpvariabel har väntevärde a, har den också standardavvikelse a. 
-2. Den stokatiska variabeln X är likformigt fördelad med väntevärde a. Vi vet att om X är Re(p,q)-fördelad, så är väntevärdet E(X)=(p+q)/2. Vi vet också att variansen är V(X)=(q-p)^2/12 och standardavvikelsen är D(X)=(q-p)/12^(1/2). Vi söker nu p och q (dvs fördelningens övre och undre gränser), uttryckt i a, så att V(X)=D(X). Jag räknade detta i mitt block och kom fram till att den undre gränsen är a-sqrt(3) och den övre är a+sqrt(3). Detta ger att både variansen och standardavvikelsen blir 1. Vi har även den triviala lösningen där varians och std är 0, vilket fås genom att sätta båda gränserna till a. 
-
-# Kan data anses vara normalfördelad?
-Ofta ställs man som statistiker inför ovanstående fråga. Vi ska här jämföra olika (framför allt grafiska) metoder som kan användas för att besvara den. Vi ska också försöka besvara frågan om hur stort vårt n (antal observationer i vårt stickprov från en okänd sannolikhetsfördelning) behöver vara, för att vi ska kunna avgöra om stickprovet är normalfördelat eller ej. Detta ska vi ta reda på genom att simulera data från för oss kända fördelningar, både normalfördelade och icke-normalfördelade data. "Alla fördelningar som ni ska jämföra ska ha väntevärde och standardavvikelse lika med a, där a är de två sista siffrorna i erat personnummer (om ni
-jobbar i par, välj den enas personnummer att jobba med)."
-
-## Frågor till uppgiften
-1. Vilken är det *minsta stickprovsstorleken* som behövs för att den *fördelning* ni simulerar från skall avslöja sig som normal eller icke-normal?
-2. Vilken grafisk metod anser ni är *mest effektiv* för att avgöra om ett stickprov är normalfördelat eller inte? Motivera med de olika grafiska metoderna (boxplot, histogram, normalfördelningsplott).
-
-
-## "Uppgift 2.1: Normalfördelade data"
-
-Vi simulerar ett stickprov om 10 observationer från normalfördelad data:
-```{r}
-set.seed(19960120)
-x1 <- rnorm(10, 24, 24) # antal simulerade värden, väntevärde, standardavvikelse
-```
-
-Vi jämför slumptalen som vi precis simulerade, med den sanna normalfördelningen:
-```{r}
-hist(x1, prob = TRUE)
-x <- seq(from = -24, to = 72, length.out = 100)
-lines(x, dnorm(x, 24, 24))
-```
-
-Vi betraktar stickprovet med hjälp av en boxplot:
-```{r}
-boxplot(x1)
-```
-
-Och en normalfördelningsplot:
-```{r}
-qqnorm(x1)
-qqline(x1)
-```
-
-Vi simulerar ytterligare sju stickprov om 10 observtioner, från normalfördelade data:
-```{r}
-set.seed(19960120)
-x1 <- rnorm(100, 24, 24) # Detta är samma som ovan pga set.seed
-x2 <- rnorm(100, 24, 24) # Detta blir nya slumptal
-x3 <- rnorm(100, 24, 24) # Osv
-x4 <- rnorm(100, 24, 24)
-x5 <- rnorm(100, 24, 24)
-x6 <- rnorm(100, 24, 24)
-x7 <- rnorm(100, 24, 24)
-x8 <- rnorm(100, 24, 24)
-```
-
-Vi betraktar ovanstående åtta stickprov i en gemensam boxplot, för att få en överblick över dem:
-```{r}
-boxplot(x1, x2, x3, x4, x5, x6, x7, x8)
-```
-
-Nu vill vi titta på stickproven i form av histogram:
-
-```{r}
-old_par <- par(mfrow = c(2, 4)) # 2 rader, 4 kolumner
-hist(x1)
-hist(x2)
-hist(x3)
-hist(x4)
-hist(x5)
-hist(x6)
-hist(x7)
-hist(x8)
-par(old_par) # "Säg åt R att sluta förvänta sig fler plottar till samma fönster"
-```
-
-Ohc nu i form av normalfördelningsplottar:
-```{r}
-old_par <- par(mfrow = c(2, 4)) # 2 rader, 4 kolumner
-qqnorm(x1)
-qqline(x1)
-qqnorm(x2)
-qqline(x2)
-qqnorm(x3)
-qqline(x3)
-qqnorm(x4)
-qqline(x4)
-qqnorm(x5)
-qqline(x5)
-qqnorm(x6)
-qqline(x6)
-qqnorm(x7)
-qqline(x7)
-qqnorm(x8)
-qqline(x8)
-```
-
-
-## "Uppgift 2.2: Likformigt fördelade data"
-
-Vi simulerar fem stickprov om 10 observationer, från likformig fördelning:
-```{r}
-set.seed(19960120)
-u1 <- runif(100, 24-sqrt(3), 24+sqrt(3)) # antal simulerade värden, min, max
-u2 <- runif(100, 24-sqrt(3), 24+sqrt(3))
-u3 <- runif(100, 24-sqrt(3), 24+sqrt(3))
-u4 <- runif(100, 24-sqrt(3), 24+sqrt(3))
-u5 <- runif(100, 24-sqrt(3), 24+sqrt(3))
-```
-
-
-Vi jämför stickproven i en boxplot:
-```{r}
-boxplot(u1, u2, u3, u4, u5)
-```
-
-Och i histogram:
-```{r}
-old_par <- par(mfrow = c(2, 2)) # 2 rader, 4 kolumner
-hist(u1)
-hist(u2)
-hist(u3)
-hist(u4)
-hist(u5)
-par(old_par) # "Säg åt R att sluta förvänta sig fler plottar till samma fönster"
-```
-
-Och i normalfördelningsplot:
-```{r}
-old_par <- par(mfrow = c(2, 2)) # 2 rader, 4 kolumner
-qqnorm(u1)
-qqline(u1)
-qqnorm(u2)
-qqline(u2)
-qqnorm(u3)
-qqline(u3)
-qqnorm(u4)
-qqline(u4)
-qqnorm(u5)
-qqline(u5)
-```
-
-
-
-Låt oss jämföra stickproven från den normalfördelade datan med stickproven från den likformigt fördelade datan.
-```{r}
-old_par <- par(mfrow = c(2, 4))
-hist(x1, breaks = seq(from = -40, to = 80, by = 5))
-hist(x2, breaks = seq(from = -80, to = 120, by = 5))
-hist(x3, breaks = seq(from = -40, to = 80, by = 5))
-hist(x4, breaks = seq(from = -40, to = 80, by = 5))
-hist(u1, breaks = seq(from = 21, to = 26, by = 0.2))
-hist(u2, breaks = seq(from = 21, to = 26, by = 0.2))
-hist(u3, breaks = seq(from = 21, to = 26, by = 0.2))
-hist(u4, breaks = seq(from = 21, to = 26, by = 0.2))
-
-```
- 
-Upprepa er analys med stickprovsstorlekarna n = 20, n = 100 och ytterligare något värde på n som ni väljer själva. Besvara sedan frågorna som tidigare ställts:
-
-## Frågor till uppgiften
-1. Vilken är det *minsta stickprovsstorleken* som behövs för att den *fördelning* ni simulerar från skall avslöja sig som normal eller icke-normal?
-2. Vilken grafisk metod anser ni är *mest effektiv* för att avgöra om ett stickprov är normalfördelat eller inte? Motivera med de olika grafiska metoderna (boxplot, histogram, normalfördelningsplott).
-
-Vad gäller val av metod vill jag förespråka normalfördelningsplotten. Hittills tycker jag att normalfördelningsplotten är den utifrån vilken det tydligast går att med ögat avgöra om data är normalfördelad eller ej. Boxploten tycker jag är den svåraste. Histogrammet är okej men för t.ex. n=100 ser man mycket tydligare skillnad mellan stickproven från den likformiga fördelnignen och den normalfördelade i normalfördelningsplotten än i histogrammen. 
-
-Vad gäller storlek på stickprovet tycker jag att det är svårare. Framför allt beror storleken på stickprovet på val av metod! T.ex. tycker jag att det inte krävs lika många observationer för att kunna avgöra normal/icke-normal i en normalfördelningsplot, som i ett histogram. (Vi får simulera och testa oss fram för att komma fram till ett gränsvärde för n!)
-
-## "Uppgift 2.3: Exponentialfördelade data"
-
-Dags att undersöka samma sak för stickprov från exponentialfördelade data. Vi skapar våra stickprov:
-
-```{r}
-set.seed(19960120)
-e1 <- rexp(20, 1/24) # antal simulerade observationer, 1/väntevärdet
-e2 <- rexp(20, 1/24)
-e3 <- rexp(20, 1/24)
-e4 <- rexp(20, 1/24)
-e5 <- rexp(20, 1/24)
-e6 <- rexp(20, 1/24)
-```
-
-Vi visualiserar i en boxplot:
-```{r}
-boxplot(e1, e2, e3, e4, e5, e6)
-```
-
-Min kritik ovan till trots, tycker jag att man i det här fallet tydligt kan konstatera att data inte ser särskilt normalfördelad ut. Vi ser en skevhet i stickproven, med en "lägre svans" åt ena hållet. Boxplotten klarar faktiskt nästan av att diskvalificera exp-stickproven som normalfördelade redan vid n=10. Vid n=20 är jag övertygad.
-
-Låt oss titta på stickproven i histogram:
-
-```{r}
-old_par <- par(mfrow = c(2, 3))
-hist(e1, breaks = seq(from = 0, to = 100, by = 20))
-hist(e2, breaks = seq(from = 0, to = 100, by = 20))
-hist(e3, breaks = seq(from = 0, to = 100, by = 20))
-hist(e4, breaks = seq(from = 0, to = 100, by = 20))
-hist(e5, breaks = seq(from = 0, to = 100, by = 20))
-hist(e6, breaks = seq(from = 0, to = 100, by = 20))
-```
-
-Aha! För n = 10 på de exp-fördelade stickproven var histogramfinfördelade histogram ganska värdelöst. Alla stickprov såg i princip likformigt fördelade ut. Däremot, med större klasser, såg det bättre ut.  
-För n=20 på de exp-fördelade stickproven är jag övertygad om att de EJ är normalfördelade.
-
-Den tredje och sista typen av visualisering: Normalfördelningsplotten! Let's go.
-
-```{r}
-old_par <- par(mfrow = c(2, 3))
-qqnorm(e1)
-qqline(e1)
-qqnorm(e2)
-qqline(e2)
-qqnorm(e3)
-qqline(e3)
-qqnorm(e4)
-qqline(e4)
-qqnorm(e5)
-qqline(e5)
-qqnorm(e6)
-qqline(e6)
-```
-
-Aha! Normalfördelningsplotten fungerar dåligt för n=10 på stickproven. (n=10 verkar helt enkelt överlag vara ett för litet stickprov för att kunna avgöra om data är normalfördelat eller ej.)
-
-Jag tycker faktiskt att även n=20 ger tvetydiga resultat i normalfördelningsplotten. När vi tittar på ett större antal stickprov (i det här fallet 6 stickprov) så blir jag (kanske) övertygad om att det inte är normalfördelade data. Men inte helt. Intressant!!!
-
-
-# "Uppgift 3: Explorativ dataanalys"
-
-```{r}
-alc <- read.csv("olvinsprit.csv", header = TRUE)
-alc
-land <- alc$Land
-beer <- alc$beer
-vin <- alc$vin
-sprit <- alc$sprit
-
-```
-
-
-```{r}
-gg_alc <- ggplot(alc, aes(x=beer, y=vin, label=Land)) + 
-  geom_point(col = "#00AFBB", size = sprit) + 
-  geom_text(hjust=-0.1, vjust=-0.3) + 
-  labs(title="Alcohol consumption in some OECD countries", 
-       subtitle="Wine and beer", 
-       y="Wine", 
-       x="Beer", 
-       caption="Storlek på datapunkter indikerar mängden starksprit.")
-plot(gg_alc)
-```
-
-```{r}
-boxplot(alc$vin)
-```
-
 
 -----REDOVISNING-----
 
 # Sammanfattning
-I detta inledande stycke ska du förklara vad labben går ut på, utan att gå in
-på detaljer.
+Den här laborationen går ut på att utforska olika metoder för att avgöra huruvida data i ett stickprov kan anses komma från en normalfördelning eller ej. 
 
-# Uppgift 1
-Text. Använd underrubriker för delfrågor om du tycker det är motiverat.
+I del 1 besvarar vi två frågor: (a) Hur stort stickprov behöver man ha för att kunna avgöra om data är normalfördelade? och (b) Vilken grafisk metod är bäst för att avgöra om data är normalfördelade? Vi kommer fram till att stickprovsstorleken bör vara åtminstone [SKRIV IN NÅGOT KORT HÄR OM VÅRA RESULTAT], och att bland de tre metoder vi undersöker (boxplot, normalfördelningsplot och histogram), så är normalfördelningsplotten det mest effektiva sättet att enkelt med ögat avgöra om data är normalfördelade eller ej.
 
-# Uppgift 2
-Mer text. Använd underrubriker för delfrågor om du tycker det är motiverat.
+I del 2 använder vi dessa kunskaper och utforkar ett datamaterial över alkoholkonsumtionen i ett urval av OECD-länder. Vi kan inte konstatera något samband mellan konsumtionen av de olika alkoholtyperna. Vi diskuterar de olika ländernas placering i förhållande till varandra. 
 
-Et cetera om det är fler än 2 uppgifter.
+# Uppgift 2: Explorativ dataanalys
+
+I den här delen ska vi undersöka ett verkligt datamaterial med hjälp av de metoder som vi bekantat oss med ovan. Våra data är statistik över alkoholkonsumtionen i ett urval av OECD-länder, uppdelat på öl, vin och sprit. 
+
+Vi börjar med att läsa in data i en dataframe, och extraherar vektorer utifrån kolonnerna, så att vi kan plotta variablerna var för sig och mot varandra.
+
+```{r}
+alkohol_OECD <- read.csv("olvinsprit.csv", header = TRUE) # läser in data
+
+land <- alkohol_OECD$Land # extraherar och läser in kolonner som vektorer
+öl <- alkohol_OECD$beer
+vin <- alkohol_OECD$vin
+sprit <- alkohol_OECD$sprit
+
+alkohol_OECD # visar data
+```
+
+Vi noterar att vi för varje variabel har 18 datapunkter. Nu är vi redo att undersöka våra data!
+
+
+## Är data normalfördelad?
+
+Vår första fundering är huruvida data kan anses komma från en normalfördelning. Vi använder de metoder vi nyss har lärt oss och ser efter.
+
+### Öl
+
+```{r, fig.cap="Ölkonsumtionen i 18 olika OECD-länder, presenterat i tre olika plottar: normalfördelningsplot, boxplot och histogram."}
+old_par <- par(mfrow = c(1, 3), oma=c(0,0,3,0))
+
+qqnorm(öl,
+       xlab = "Teoretiska kvantiler",
+       ylab = "Stickprovskvantiler",
+       main = "Normalfördelningsplot")
+qqline(öl)
+
+boxplot(öl,
+        ylab = "Konsumtion",
+        main = "Boxplot")
+
+hist(öl,
+     xlab = "Konsumtion",
+     ylab = "Frekvens",
+     main = "Histogram") 
+
+mtext("Konsumtion av öl i ett antal OECD-länder", outer = TRUE, cex = 1.2, font = 2)
+```
+
+I figur 10 ser vi tre olika plottar över konsumtionen av öl. Alla tre plottar indikerar att data kan komma från en normalfördelning. I normalfördelningsplotten ser vi att punkterna ligger längs en hyfsat rät linje. I boxplotten ser vi symmetri i lådan (medianen och kvartilerna), och längden på "svansarna" motsvarar ungefär vad vill se i en boxplot om data vore normalfördelad (även om dessa inte är helt symmetriska). I histogrammet ser vi något som påminner om normalfördelningens täthet: väntevärdet ligger någonstans kring 70-80, de allra flesta datapunkterna hamnar mellan 40 och 100, och en mindre mängd datapunkter sprider sig symmetriskt på bägge sidor om väntevärdet. Detta är vad vi väntar oss av normalfördelad data. Vi menar att öl kan anses komma från en normalfördelning. 
+
+### Vin
+
+```{r, fig.cap="Vinkonsumtionen i 18 olika OECD-länder, presenterat i tre olika plottar: normalfördelningsplot, boxplot och histogram."}
+old_par <- par(mfrow = c(1, 3), oma=c(0,0,3,0))
+
+qqnorm(vin,
+       xlab = "Teoretiska kvantiler",
+       ylab = "Stickprovskvantiler",
+       main = "Normalfördelningsplot")
+qqline(vin)
+
+boxplot(vin,
+        ylab = "Konsumtion",
+        main = "Boxplot")
+
+hist(vin,
+     breaks = seq(from = 0, to = 70, by = 10),
+     xlab = "Konsumtion",
+     ylab = "Frekvens",
+     main = "Histogram") 
+
+mtext("Konsumtion av vin i ett antal OECD-länder", outer = TRUE, cex = 1.2, font = 2)
+```
+
+Konsumtionen av vin fördelat mellan de olika länderna ser vi i figur 11. Jämfört med öl ser vi här större skevhet. I normalfördelningsplotten är det fler outliers utanför den önskade räta linjen och i boxplotten ser vi en avsaknad av symmetri - tyngdpunkten ligger nedåt och vi har längre "svans" uppåt. Detsamma ser vi i histogrammet. Om konsumtionen av vin vore normalfördelad hade vi velat se ungefär lika mycket data till vänster om tyngdpunkten som till höger. Det gör vi inte helt nu. Alltså anser vi *inte* att man kan säga att vin kommer från en normalfördelning, utifrån det vi ser i våra data.
+
+### Sprit
+
+```{r, fig.cap="Spritkonsumtionen i 18 olika OECD-länder, presenterat i tre olika plottar: normalfördelningsplot, boxplot och histogram."}
+old_par <- par(mfrow = c(1, 3), oma=c(0,0,3,0))
+
+qqnorm(sprit,
+       xlab = "Teoretiska kvantiler",
+       ylab = "Stickprovskvantiler",
+       main = "Normalfördelningsplot")
+qqline(sprit)
+
+boxplot(sprit,
+        ylab = "Konsumtion",
+        main = "Boxplot")
+
+hist(sprit,
+     xlab = "Konsumtion",
+     ylab = "Frekvens",
+     main = "Histogram") 
+mtext("Konsumtion av sprit i ett antal OECD-länder", outer = TRUE, cex = 1.2, font = 2)
+```
+
+Slutligen betraktar vi spritkonsumtionen i figur 12, genom de tre olika diagramtyperna. Här ser vi en något ytterligare större skevhet än för vinkonsumtionen. Särskilt tydligt är detta i histogrammet, där vi ser att typvärdet ligger i den första klassen. I boxplotten är "svansarna" ojämna och i normalfördelningsplotten har vi flera datapunkter utanför den räta linjen. Vi anser, utifrån våra data, att spritkonsumtionen *inte* kommer från en normalfördelning. 
+
+## Jämförande av variabler
+
+Men vilka länder konsumerar vad? Och hur ligger Sverige till i jämförelse med andra länder? Finns det något samband mellan konsumtion av en viss spritsort och en annan? Låt oss plotta variablerna tillsammans, så ska vi försöka besvara frågor som dessa.
+
+```{r, fig.cap="Alkoholkonsumtionen i 18 OECD-länder, öl på x-axeln och vin på y-axeln. Storleken på datapunkterna indikerar konsumtion av starksprit: Ju större punkt, desto högre konsumtion av starksprit."}
+library(tidyverse) # laddar paket för att kunna använda ggplot
+
+gg_alkohol <- ggplot(alkohol_OECD, aes(x=öl, y=vin, label=Land)) + # väljer data
+  geom_point(col = "#00AFBB", size = sprit) + # lägger till punkter
+  geom_text(hjust=-0.1, vjust=-0.3) + #  justerar labels position
+  labs(title="Alkoholkonsumtion i ett urval av OECD-länder",
+       y="Konsumtion av vin",
+       x="Konstumtion av öl")
+
+plot(gg_alkohol)
+```
+
+I figur 13 ovan ser vi konsumtionen av öl plottat mot konsumtionen av vin. Även konsumtionen av starksprit syns i plotten, indikerat genom storleken på datapunkterna. 
+
+vi kan konstatera att Italien är det land som konsumerar mest vin, följt av Frankrike och därpå Schweiz. Italien är samtidigt det land med minst konsumtion av öl, och Frankrike det land med näst minst konsumtion av öl. I vin vs öl-avseendet kan vi konstatera att Italien och Frankrike - och även Schweiz - sticker ut jämfört med flera av de andra länderna. Sverige konsumerar förhållandevis lite vin: det finns fler länder som konsumerar *mer* vin än Sverige, än vad det finns länder som konsumerar *mindre*.
+
+Tittar vi på ölkonsumtionen är Irland det land som ligger klart i topp, med den högsta konsumtionen. Tvåan på listan över ölkonsumtion, Tyskland, kan anses ligga i överkant av ett bredare kluster av ölkonsumenter, snarare. Tätt efter Tyskland följer Österrike, Danmark och Belgien. Sverige konsumerar förhållandevis lite öl: det finns fler länder som konsumerar *mer* öl än Sverige, än vad det finns länder som konsumerar *mindre*. 
+
+Japan är det land som konsumerar mest sprit, tätt följt av Frankrike. Det finns inget land som på egen hand sticker ut åt andra hållet, alltså med en jämförelsevis väldigt låg konsumtion av starksprit (det här följer av den typ av skevhet som dessa data har, vilket vi såg i avsnittet ovan där vi undersökte fördelningen för respektive dryckestyp). Sverige kan inte anses vara extremt i starkspritkonsumtionsavseende. 
+
+Låt oss nu betrakta hur sprit- och ölkonsumtionen förhåller sig till varandra.
+
+```{r, fig.cap="Sambandet mellan konsumtionen av sprit och vin, i 19 OECD-länder. Sprit på x-axeln och öl på y-axeln. Det skuggade området indikerar konfidensintervall."}
+
+sprit_öl <- ggplot(alkohol_OECD, aes(x=sprit, y=öl, label=Land)) + # väljer data
+  geom_point(col = "#00AFBB", size = 3) + # lägger till punkter
+  geom_text(hjust=-0.1, vjust=-0.3) + # justerar labels position
+  geom_smooth(method="lm", col="red") + # lägger till trendlinje, inkl. konfidensintervall
+  labs(title="Konsumtion av sprit och öl i ett urval av OECD-länder",
+       x="Sprit",
+       y="Öl")
+
+plot(sprit_öl)
+```
+
+I figur 14 har vi plottat en trendlinje (röd) för hur konsumtion av sprit förhåller sig till konsumtion av öl. Det är tydligt att det inte finns något samband mellan dessa. Det breda konfidensintervallet (skuggat område) ser vi att *om* det finns ett samband, skulle det kunna vara både positivt eller negativt. Utifrån våra data kan vi inte avgöra vilket. Vi gör samma sak för öl och vin, respektive vin och sprit:
+
+```{r, fig.cap="Sambandet mellan konsumtionen av öl och vin, i 19 OECD-länder. Öl på x-axeln och öl på y-axeln. Det skuggade området indikerar konfidensintervall."}
+öl_vin <- ggplot(alkohol_OECD, aes(x=öl, y=vin, label=land)) + # väljer data
+  geom_point(col = "#00AFBB", size = 3) + # lägger till punkter
+  geom_text(hjust=-0.1, vjust=-0.3) + # justerar labels position
+  geom_smooth(method="lm", col="red") + # lägger till trendlinje, inkl. konfidensintervall
+  labs(title="Konsumtion av öl och vin i ett urval av OECD-länder",
+       x="Öl",
+       y="Vin")
+
+plot(öl_vin)
+```
+
+
+```{r, fig.cap="Sambandet mellan konsumtionen av öl och vin, i 19 OECD-länder. Öl på x-axeln och öl på y-axeln. Det skuggade området indikerar konfidensintervall."}
+sprit_vin <- ggplot(alkohol_OECD, aes(x=sprit, y=vin, label=land)) + # väljer data
+  geom_point(col = "#00AFBB", size = 3) + # lägger till punkter
+  geom_text(hjust=-0.1, vjust=-0.3) + # justerar labels position
+  geom_smooth(method="lm", col="red") + # lägger till trendlinje, inkl. konfidensintervall
+  labs(title="Konsumtion av sprit och vin i ett urval av OECD-länder",
+       x="Sprit",
+       y="Vin")
+
+plot(sprit_vin)
+```
+
+
+I figur 15 ser vi att det *skulle* kunna finnas ett *svagt negativt* samband mellan konsumtion av vin och öl (alltså att ju högre ölkonsumtion, desto mindre vinkonsumtion). Men som vi ser på konfidensintervallen skulle också sambandet kunna vara det motsatta. Det som orsakar den svaga lutningen på den röda grafen är troligtvis våra extremer Italien, Frankrike och Irland. Italien och Frankrike konsumerar mycket vin och lite öl. Irland tvärtom. Sambandet mellan konsumtion av sprit och vin, som vi ser i figur 16, är mde samma resonemang lika obefintligt.
+
+## Diskussion
+
+Vi har undersökt alkoholkonsumtionen i ett urval av OECD-länder. Vår explorativa dataanalys har visat att konsumtionen av öl skulle kunna anses komma från en normalfördelning. Mer tveksamt är det med konsumtionen av vin, och än mer tveksamt är det för konsumtionen av sprit. 
+
+I topp bland vinkonsumenterna ser vi länder med stor vinexport, som Italien och Frankrike. Detsamma gäller konsumtionen av öl som domineras av Irland - ett land som är vida känt för sitt öl. Vi kan således konstatera att ett gemensamt drag hos de länder som sticker ut i konsumtion av en viss alkoholtyp är att det landet har stor produktion och export av just den varan. Frankrike och Italien: vin, Irland: öl. Dessa resultat var väntade. Möjligen hade vi väntat oss att Tyskland och Österrike skulle vara mer extrema i ölkonsumtion än vad våra data visar. 
+
+Vad gäller Sverige, visar vår analys att Sverige inte ligger i topp för någon alkoholtyp. Tvärtom befinner sig Sverige i den under halvan av länderna i vårt urval. 
+
+Genom vår analys kan vi vidare konstatera att det inte verkar finnas något samband mellan konsumtion av den ena vs den andra typen av alkohol. Med data från fler länder är det möjligt att vi skulle kunna skönja ett sådant samband för exempelvis vin och öl. Om vi utgår från vad vi kommer fram till i uppgift 1 är ett stickprov på n=18 faktiskt ett för litet stickprov för att  kunna besvara frågan om normalfördelning. 

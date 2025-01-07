@@ -1,0 +1,99 @@
+---
+title: 'Statistisk analys: Laboration 3'
+author: "Ottilia Andersson & David Sermoneta"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document:
+    fig_caption: true
+---
+
+# Sammanfattning
+
+
+# Uppgift 1: Jordens medeltemperatur 1850-2007
+
+Vi läser in fil med information om jordens medeltemperatur åren 1850-2007.
+```{r}
+medeltemp <- read.csv("temperatur.csv", header = TRUE) # Läser in jordens medeltemperatur 1850-2007
+medeltemp
+```
+
+Vi visualiserar vår inlästa data i en scatterplot för att få en överblick över den:
+
+```{r, fig.cap="Jordens medeltempteratur 1850-2007. År på x-axeln och temperatur på y-axeln, mätt i grader Celcius."}
+plot(medeltemp$år, 
+     medeltemp$temperatur, 
+     main = "Jordens medeltemperatur 1850-2007",
+     xlab = "År", 
+     ylab = "Medeltemperatur (° Celsius)")
+```
+
+Det ser absolut ut att finnas ett samband mellan år och jordens medeltemperatur. Vi ser att jordens medeltemperatur med åren har stigit. Men hur ska ökningen bäst beskrivas matematiskt? Är det en linjär ökning? Om vi begränsar oss till år 1850-1975 (på ett ungefär) ser sambandet ut att vara hyfsat linjärt. Detsamma gäller tidsperioden 1975-2007, men här är ökar temperaturen snabbare, vilket vi ser i form av att lutnignen är brantare. Betraktar vi hela tidsperioden kan vi alltså - med tanke på att det ser ut som att temperaturen har ökat olika snabbt under olika tidsperioder - få problem om vi vill beskriva sambandet med en linjär modell. Man skulle kunna tänka sig att sambandet mellan tid och temperatur snarare är exponentiellt. Detta återstår att undersöka vidare!
+
+Men om vi ändå vill försöka anpassa en linjär modell till datamaterialet, skulle vi över huvud taget kunna utföra enkel linjär regression? 
+
+För att kunna utföra enkel linjär regression behöver vi ha obseroende observationer, dvs att temperaturen vid mätning ett år inte beror på temperaturen vid mätning ett annat år. Detta kan vi anta är uppfyllt. Vi behöver bivariat data, med en förklarande variabel som inte beror på slump (det vi "kontrollerar") och en responsvariabel som beror på slump (det vi "mäter"). Detta är uppfyllt i vårt material: *år* är en förklarande variabel och *temperatur* är en responsvariabel. 
+
+Vi behöver att det råder ett linjärt samband mellan den förklarande variabeln och responsvariabeln. Som tidigare nämnt råder viss tvekan gällande linjaritet över hela tidsperioden. Utifrån ockulär besiktning av data (dvs vi tittar på vår scatterplot och gör en ungefärlig bedömning), tänker vi att det bästa vore att dela upp materialet i två tidsperioder, med brytpunkt kring år 1975, om vi vill utföra enkel linjär regression. Vi kan dock testa och se hur välanpassad en linje blir över hela datamaterialet. 
+
+Därutöver behöver vi att residualerna är normalfördelade, samt att variansen i residualerna är konstant. (Vi återkommer till detta längre ner.)
+
+Vi använder `R:s`´inbuggda funktion för linjär regression:
+
+```{r}
+modell <- lm(temperatur ~ 1 + år, data = medeltemp) # Anpassar rät linje med temperatur som responsvariabel och år som förklarande variabel. Ettan säger åt R att vi vill ha ett intercept.
+```
+
+Vi visualiserar vår anpassade linje i vår scatterplot igen:
+
+```{r, fig.cap="Jordens medeltempteratur 1850-2007. År på x-axeln och temperatur på y-axeln, mätt i grader Celcius. Anpassad regressionslinje i blått."}
+plot(medeltemp$år, # Plottar datamaterialet likt tidigare
+     medeltemp$temperatur, 
+     main = "Jordens medeltemperatur 1850-2007",
+     xlab = "År", 
+     ylab = "Medeltemperatur (° Celsius)")
+abline(modell, # Lägger till anpassad linje 
+       col = "blue")
+```
+
+Det är svårt att med blotta ögat avgöra hur väl linjen passar. Vi kan skönja ett mönster för de punkter som ligger utanför linjen, nämligen att det finns fler punkter *ovan* linjen ute på kanterna, dvs tidiga respektive sena årtal, medan det i mitten av datamaterialet, dvs omkring år 1900-1980, finns fler punkter *under* linjen. Detta är helt i linje med våra kommentarer ovan, att det finns en exponentiell tendens i datamaterialet, sett över hela tidsperioden.
+
+Två hjälpmedel för att undersöka hur väl linjen passar datamaterialet är residualplot och normalfördelningsplot. Residualer mäter individuella observationers avvikelse från den anpassade linjen och residualplotten hjälper oss således att avgöra om en linjär modell är lämplig för våra data. Vi undersöker:
+
+```{r, fig.cap="Residualplot över jordens medeltemperatur, tidigare plottad."}
+residual <- modell$residuals # Extraherar residualer
+plot(medeltemp$år, residual, # Skapar residualplot
+     main = "Residualplot",
+     xlab = "År",
+     ylab = "Residual")
+abline(a = 0, b = 0, lty = "dotted") # Lägger till horisontell linje 
+```
+
+I figuren ovan kan vi skönja en trend bland residualerna. De är inte jämnt spridda, utan de första decennierna ser vi en nedåtgående trend, och de sista decennierna ser vi i stället en uppåtgående trend. Vi kan också se olika stora avvikelser från den horisontella mittlinjen för olika segment längs x-axlen. Detta är indikationer på att variansen inte är konstant, och en linjär modell kanske inte är den bästa för vårt datamaterial. Dessa kriterier för enkel linjär regression (som vi diskuterade ovan) verkar med andra ord inte helt vara uppfyllda.
+
+Vi går vidare och betraktar en normalfördelningsplot:
+
+```{r, fig.cap="En normalfördelningsplot över residualerna från tidigare plottad linjär regression över jordens medeltemperatur."}
+qqnorm(residual,
+        main = "Normalfördelningsplot")
+qqline(residual)
+```
+
+Normalfördelningsplotten säger oss hur spridningen bland residualerna är. Som tidigare nämnt vill vi att residualerna ska vara normalfördelade. I figuren ovan ser vi att de allra flesta punkterna ligger längs en rät linje, och utifrån det kan vi sluta oss till att residualerna är normalfördelade. För att knyta an till vår tidigare diskussion om förutsättningar för enkel linjär regressoin, kan vi alltså konstatera att kriteriet om normalfördelade residualer är uppfyllt. 
+
+# Uppgift 2: Jordens medeltemperatur under tre perioder 
+
+# Uppgift 3: Prediktion
+
+## 3.1
+
+```{r}
+df_test <- read.csv("temperatur_test.csv", header = TRUE)
+```
+
+
+
+## 3.2
+
+

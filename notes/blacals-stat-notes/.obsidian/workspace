@@ -1,0 +1,146 @@
+{
+  "main": {
+    "id": "ea4053e2cd85511b",
+    "type": "split",
+    "children": [
+      {
+        "id": "f7c62d388679a523",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "Stats/Joint-Random-Variables.md",
+            "mode": "source",
+            "backlinks": true,
+            "source": false
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "864b68f6d384df84",
+    "type": "split",
+    "children": [
+      {
+        "id": "f99dc3861baafb2c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f7769fa50b5601a0",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "48978f59708ea724",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "89e5a4d91838400d",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "right": {
+    "id": "6b42d99cd1e3e81b",
+    "type": "split",
+    "children": [
+      {
+        "id": "1bcd1cb7e616d644",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6462b6c42a15b3c6",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Stats/Joint-Random-Variables.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "57878245f3ae4882",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Stats/Joint-Random-Variables.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "200d99656f03ff6e",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "bc1981558648e7ab",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Stats/Joint-Random-Variables.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "f7c62d388679a523",
+  "lastOpenFiles": [
+    "Stats/Probability-Theory.md",
+    "Stats/Joint-Random-Variables.md",
+    "Stats/Inferential-Statistics.md",
+    "Stats/Continuous-Random-Variables.md",
+    "Stats/Probability-Distributions.md",
+    "Stats/Discrete-Random-Variables.md",
+    "Stats/Estimation.md",
+    "Stats/Hypothesis-Testing.md",
+    "Stats/Normal-Distribution-Extras.md",
+    "Stats/Stats.md"
+  ]
+}

@@ -51,6 +51,44 @@ innertopmargin=-2pt]{exercise}{Exercise}
 \begin{document}
 \maketitle
 
+\section*{Sampling and estimation}
+
+\subsection*{A few words on samples}
+
+\subsection*{Why estimate, and how?}
+
+\subsection*{Confidence intervals}
+We have an estimate of i.e. the expected value of the sampled population's
+associated distribution. Sometimes that's not good enough, and so we would
+rather want to give an interval in which the true EV lies. Sampling error is 
+inevitable.
+
+\begin{definition} 
+Given a sample, $x_{n} = x_1,\ldots,x_{n}$ define the
+confidence interval of paramenter $\theta$, and confidence $c \in  (0,1)$ as \[
+ I_{\theta, c} = \left[ \under{\theta}(x_{n}) , \overline{\theta}(x_{n}) \right],
+ \]  where $P(\under{\theta}(x_{n}) \leq  \theta \leq  \overline{\theta}(x_{n}) ) \leq  c$
+\end{definition}
+Now for a procedure to estimate such an interval.
+\begin{remark}
+ \;
+\begin{enumerate}[(1)]
+\item Find an estimate of the sought after parameter $\theta.$ We call the estimate
+$\hat{\theta}$, and it's obviously a function of the sample.
+\item Since we know the distributions of our sample, treat  $\hat{\theta}$ as a
+function of the random variables $X_1,\ldots,X_{n}$ each corresponding to
+$x_1,\ldots,x_{n}$. Call this random variable $\Theta(X_1, \ldots,X_{n})$ and
+ transform $\Theta$ (often via standardising it) into a new random variable with nice properties, that does not depend anymore on the unknown parameter  $\theta$. Call this RV $R_{\Theta}$. 
+\item Now for the actual calculation. Find the quantiles $r_1, r_2$ that give you the sought after confidence number $c$, these are decided by the equation \[
+P(r_1 \leq  R_{\Theta} \leq  r_2) \leq  c.
+\]  Now we can solve for $\theta$, (usually as part of a standardizing transformation of an RV, we either add or multiply a factor of  $\theta$). This will look like \[
+P(\under{\theta}(x_{n}) \leq  \theta \leq  \overline{\theta}(x_{n})) \leq  c.
+\] And our confidence interval has been computed.
+\end{enumerate}
+\end{remark}
+
+
+\end{proof}
 \subsection*{Likelihood function}
 \begin{definition}[Likelihood Function]
 The \textit{likelihood function} is defined by \[

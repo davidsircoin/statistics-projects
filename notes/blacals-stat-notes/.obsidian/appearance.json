@@ -1,0 +1,14 @@
+{
+  "baseFontSize": 14,
+  "cssTheme": "Obsidian gruvbox",
+  "textFontFamily": "Times New Roman",
+  "enabledCssSnippets": [
+    "Space",
+    "Centre-Table",
+    "Custom-Callouts",
+    "custom-admonitions.3e451c",
+    "Theorems",
+    "TableScroll"
+  ],
+  "accentColor": "#8cc07c"
+}

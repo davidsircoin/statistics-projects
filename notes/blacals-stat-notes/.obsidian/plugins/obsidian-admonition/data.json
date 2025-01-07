@@ -1,0 +1,142 @@
+{
+  "userAdmonitions": {
+    "def": {
+      "type": "def",
+      "color": "128, 0, 255",
+      "icon": {
+        "name": "moon",
+        "type": "font-awesome"
+      },
+      "command": false,
+      "title": "Definition",
+      "injectColor": true,
+      "noTitle": false,
+      "copy": true
+    },
+    "thm": {
+      "type": "thm",
+      "color": "218, 100, 22",
+      "icon": {
+        "type": "obsidian",
+        "name": "lucide-type"
+      },
+      "command": false,
+      "title": "Theorem",
+      "injectColor": true,
+      "noTitle": false,
+      "copy": true
+    },
+    "rmk": {
+      "type": "rmk",
+      "color": "104, 157, 106",
+      "icon": {
+        "type": "obsidian",
+        "name": "lucide-cog"
+      },
+      "command": false,
+      "title": "Remark",
+      "injectColor": true,
+      "noTitle": false,
+      "copy": true
+    },
+    "goal": {
+      "type": "goal",
+      "color": "80, 230, 153",
+      "icon": {
+        "type": "obsidian",
+        "name": "lucide-sigma"
+      },
+      "command": false,
+      "title": "Goals",
+      "injectColor": true,
+      "noTitle": false,
+      "copy": true
+    },
+    "cnj": {
+      "type": "cnj",
+      "color": "255, 117, 172",
+      "icon": {
+        "type": "obsidian",
+        "name": "lucide-loader-2"
+      },
+      "command": false,
+      "title": "Conjecture",
+      "injectColor": true,
+      "noTitle": false,
+      "copy": true
+    },
+    "comm": {
+      "type": "comm",
+      "color": "186, 75, 28",
+      "icon": {
+        "name": "pen-nib",
+        "type": "font-awesome"
+      },
+      "command": false,
+      "title": "Comment",
+      "injectColor": true,
+      "noTitle": false,
+      "copy": true
+    },
+    "que": {
+      "type": "que",
+      "color": "255, 216, 133",
+      "icon": {
+        "name": "quora",
+        "type": "font-awesome"
+      },
+      "command": false,
+      "title": "Question",
+      "injectColor": true,
+      "noTitle": false,
+      "copy": true
+    },
+    "imp": {
+      "type": "imp",
+      "color": "40, 230, 132",
+      "icon": {
+        "name": "fire",
+        "type": "font-awesome"
+      },
+      "command": false,
+      "title": "Important",
+      "injectColor": true,
+      "noTitle": false,
+      "copy": true
+    },
+    "Proof": {
+      "type": "Proof",
+      "color": "22, 140, 218",
+      "icon": {
+        "name": "pen-nib",
+        "type": "font-awesome"
+      },
+      "command": false,
+      "title": "Proof",
+      "injectColor": true,
+      "noTitle": false,
+      "copy": true
+    }
+  },
+  "syntaxHighlight": false,
+  "copyButton": true,
+  "version": "10.3.2",
+  "autoCollapse": true,
+  "defaultCollapseType": "open",
+  "injectColor": true,
+  "parseTitles": true,
+  "dropShadow": true,
+  "hideEmpty": false,
+  "open": {
+    "admonitions": true,
+    "icons": true,
+    "other": true,
+    "advanced": true
+  },
+  "icons": [],
+  "useFontAwesome": true,
+  "rpgDownloadedOnce": false,
+  "msDocConverted": false,
+  "useSnippet": true,
+  "snippetPath": "custom-admonitions.3e451c"
+}

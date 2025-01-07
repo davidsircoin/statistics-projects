@@ -1,0 +1,22 @@
+.callout[data-callout="defn"] {
+    --callout-color: 163, 90, 230;
+    --callout-icon: lucide-moon;
+}
+/*  faded purple:       143, 63, 113
+    neutral pruples:    177, 98, 134
+*/
+
+.callout[data-callout="thm"] {
+    --callout-color: 214,93,14;
+    --callout-icon: lucide-type;
+}
+
+.callout[data-callout="rem"] {
+    --callout-color: 104,157,106;
+    --callout-icon: lucide-cog;
+}
+
+.callout[data-callout="goal"] {
+    --callout-color: 80,230,153;
+    --callout-icon: lucide-sigma;
+}
